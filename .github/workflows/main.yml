@@ -18,26 +18,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y awscli
 
-      - name: Verify Environment Variables
-        run: |
-          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "AWS_ACCESS_KEY_ID is not set"; exit 1; fi
-          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then echo "AWS_SECRET_ACCESS_KEY is not set"; exit 1; fi
-          if [ -z "$AWS_REGION" ]; then echo "AWS_REGION is not set"; exit 1; fi
-          if [ -z "$AWS_BUCKET_NAME" ]; then echo "AWS_BUCKET_NAME is not set"; exit 1; fi
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-
       - name: Deploy to S3
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: "AKIA6G75DNM36ZYURRKJ"
+          AWS_SECRET_ACCESS_KEY: "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"
+          AWS_REGION: "ap-south-1"
+          AWS_BUCKET_NAME: "gitactiontest1"
         run: |
-          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          aws configure set default.region $AWS_REGION
-          aws s3 sync ./ s3://$AWS_BUCKET_NAME --region $AWS_REGION --delete --acl public-read
+          aws s3 sync ./ s3://$AWS_BUCKET_NAME --delete --acl public-read
